@@ -1,13 +1,9 @@
 [build]
-  command = "npm install && ng build --prod"
-  publish = "dist/front-angular"
-  base = "/"
 
-[build.environment]
-  NODE_VERSION = "16"
+  base = "Front-Angular" 
 
-[context.deploy-preview]
-  command = "ng build --prod"
-  publish = "dist/front-angular"
 
-[context.production.environment]
+  command = "npm run build"
+  
+  publish = "Front-Angular/dist/front-angular" 
+  
