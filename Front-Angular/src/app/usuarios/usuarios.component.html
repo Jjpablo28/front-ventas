@@ -1,0 +1,162 @@
+<div class="usuarios-container">
+
+  <h1>Módulo de Usuarios</h1>
+
+  <!-- BOTONES -->
+  <div class="button-container">
+    <button class="btn" (click)="toggle(1)">Listado de usuarios</button>
+    <button class="btn" (click)="toggle(2)">Crear usuario</button>
+    <button class="btn" (click)="toggle(3)">Editar usuario</button>
+    <button class="btn" (click)="toggle(4)">Desactivar usuario</button>
+    <button class="btn" (click)="toggle(5)">Resetear contraseña</button>
+    <button class="btn btn-salir" routerLink="/inicio">
+      <img class="icono-salir" src="assets/img/casa-blanca.png" width="24" height="24">
+    </button>
+  </div>
+
+  <!-- SECCIONES -->
+
+  <!-- 1. LISTADO -->
+  <section *ngIf="show1" class="section-box">
+    <h2>Listado de usuarios</h2>
+
+    <table class="user-table">
+      <thead>
+      <tr>
+        <th>ID</th>
+        <th>Nombre</th>
+        <th>Correo</th>
+        <th>Rol</th>
+        <th>Estado</th>
+        <th>Acciones</th>
+      </tr>
+      </thead>
+
+      <tbody>
+      <tr>
+        <td>001</td>
+        <td>Juan Pérez</td>
+        <td>Correo prueba</td>
+        <td>Admin</td>
+        <td>Activo</td>
+        <td>
+          <button class="edit-btn">Editar</button>
+          <button class="disable-btn">Desactivar</button>
+          <button class="disable-btn">Cambiar Contraseña</button>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+
+  </section>
+
+  <!-- 2. CREAR USUARIO -->
+  <section *ngIf="show2" class="section-box">
+    <h2>Crear usuario</h2>
+
+    <form class="form-grid">
+
+      <div>
+        <label>Nombre completo</label>
+        <input type="text" />
+      </div>
+
+      <div>
+        <label>Correo electrónico</label>
+        <input type="email" />
+      </div>
+
+      <div>
+        <label>Contraseña</label>
+        <input type="password" />
+      </div>
+
+      <div>
+        <label>Rol</label>
+        <select>
+          <option>Administrador</option>
+          <option>Empleado</option>
+        </select>
+      </div>
+
+      <div>
+        <label>Estado</label>
+        <select>
+          <option>Activo</option>
+          <option>Inactivo</option>
+        </select>
+      </div>
+
+      <button class="save-btn">Registrar usuario</button>
+    </form>
+  </section>
+
+
+  <!-- 3. EDITAR USUARIO -->
+  <section *ngIf="show3" class="section-box">
+    <h2>Editar usuario</h2>
+
+    <form class="form-grid">
+
+      <div>
+        <label>Nombre completo</label>
+        <input type="text" value="Juan Pérez" />
+      </div>
+
+      <div>
+        <label>Correo electrónico</label>
+        <input type="email" value="juan@example.com" />
+      </div>
+
+      <div>
+        <label>Rol</label>
+        <select>
+          <option selected>Administrador</option>
+          <option>Empleado</option>
+        </select>
+      </div>
+
+      <div>
+        <label>Estado</label>
+        <select>
+          <option selected>Activo</option>
+          <option>Inactivo</option>
+        </select>
+      </div>
+
+      <button class="save-btn">Guardar cambios</button>
+    </form>
+  </section>
+
+
+  <!-- 4. DESACTIVAR -->
+  <section *ngIf="show4" class="section-box">
+    <h2>Desactivar usuario</h2>
+
+    <div class="delete-box">
+      <p>¿Deseas desactivar este usuario?</p>
+
+      <div class="btn-row">
+        <button class="danger-btn">Desactivar</button>
+        <button class="cancel-btn">Cancelar</button>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- 5. RESETEAR CONTRASEÑA -->
+  <section *ngIf="show5" class="section-box">
+    <h2>Resetear contraseña</h2>
+
+    <div class="delete-box">
+      <p>¿Deseas enviar un correo de restablecimiento al usuario?</p>
+
+      <div class="btn-row">
+        <button class="danger-btn">Enviar correo</button>
+        <button class="cancel-btn">Cancelar</button>
+      </div>
+    </div>
+  </section>
+
+</div>
+

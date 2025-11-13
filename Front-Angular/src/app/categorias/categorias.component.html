@@ -1,0 +1,108 @@
+<div class="lineas-container">
+
+  <h1>Módulo de Líneas de Producto</h1>
+
+  <!-- BOTONES -->
+  <div class="button-container">
+    <button class="btn" (click)="toggle(1)">Listado</button>
+    <button class="btn" (click)="toggle(2)">Crear línea</button>
+    <button class="btn" (click)="toggle(3)">Editar línea</button>
+    <button class="btn" (click)="toggle(4)">Eliminar línea</button>
+  </div>
+
+  <!-- 3.1 LISTADO -->
+  <section *ngIf="show1" class="section-box">
+    <h2>3.1 Listado de líneas</h2>
+
+    <table class="line-table">
+      <thead>
+      <tr>
+        <th>Id</th>
+        <th>Nombre</th>
+        <th>Descripción</th>
+        <th>Acciones</th>
+      </tr>
+      </thead>
+
+      <tbody>
+      <tr *ngFor="let linea of categorias">
+        <td>{{ linea.id }}</td>
+        <td>{{ linea.nombre }}</td>
+        <td>{{ linea.descripcion }}</td>
+        <td>
+          <button class="edit-btn" (click)="editarLinea(linea)">Editar</button>
+          <button class="delete-btn"(click)="seleccionarLinea(linea)">Eliminar</button>
+        </td>
+      </tr>
+
+      <tr>
+        <td colspan="4" class="new-line">
+          <button class="create-btn" (click)="toggle(2)">Crear nueva línea</button>
+        </td>
+      </tr>
+
+      </tbody>
+    </table>
+
+  </section>
+
+  <!-- 3.2 CREAR -->
+  <section *ngIf="show2" class="section-box">
+    <h2>3.2 Crear línea</h2>
+
+    <form class="form-grid" (ngSubmit)="crearLinea()">
+
+      <div class="grid-full">
+        <label>Nombre de la línea</label>
+        <input type="text" [(ngModel)]="nombre" name="nombre">
+      </div>
+
+      <div class="grid-full">
+        <label>Descripción (opcional)</label>
+        <textarea rows="3" [(ngModel)]="descrip" name="descripcion"></textarea>
+      </div>
+
+      <button type="submit" class="save-btn">Guardar línea</button>
+
+    </form>
+  </section>
+
+  <!-- 3.3 EDITAR -->
+  <section *ngIf="show3" class="section-box">
+    <h2>3.3 Editar línea</h2>
+
+    <p class="info-text">Los datos aparecen precargados de la línea seleccionada.</p>
+
+    <form class="form-grid" (ngSubmit)="actualizarLinea()">
+
+      <div class="grid-full">
+        <label>Nombre de la línea</label>
+        <input type="text" [(ngModel)]="eNombre" name="eName">
+      </div>
+
+      <div class="grid-full">
+        <label>Descripción</label>
+        <textarea rows="3" [(ngModel)]="eDescripcion" name="eDescripcion"></textarea>
+      </div>
+
+      <button class="save-btn">Guardar cambios</button>
+
+    </form>
+  </section>
+
+  <!-- 3.4 ELIMINAR -->
+  <section *ngIf="show4" class="section-box">
+    <h2>3.4 Eliminar línea</h2>
+
+    <div class="delete-box">
+      <p>¿Estás seguro que deseas eliminar esta línea de producto?</p>
+
+      <div class="btn-row">
+        <button class="danger-btn" (click)="eliminarCategoria()">Eliminar</button>
+        <button class="cancel-btn" (click)="toggle(1)">Cancelar</button>
+      </div>
+    </div>
+
+  </section>
+
+</div>

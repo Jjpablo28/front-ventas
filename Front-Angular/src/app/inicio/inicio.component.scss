@@ -1,0 +1,85 @@
+@import url(https://fonts.googleapis.com/css?family=Roboto);
+
+.page-content-wrapper {
+  padding: 2.5rem;
+  flex: 1;
+
+  @media (max-width: 768px) {
+    padding: 1.5rem;
+  }
+}
+
+h1 {
+  text-align: center;
+  width: 100%;
+  font-size: clamp(1.6rem, 4vw, 2.8rem);
+  margin-top: 0;
+}
+
+
+body {
+  font-family: Roboto, sans-serif;
+}
+
+#chart {
+  max-width: 650px;
+  margin: 35px auto;
+}
+
+/* From Uiverse.io by CristianMontoya98 */
+.btn {
+  width: 6.5em;
+  height: 2.3em;
+  margin: 0.5em;
+  background: #2c3e50;
+  color: white;
+  border: none;
+  border-radius: 0.625em;
+  font-size: 20px;
+  font-weight: bold;
+  cursor: pointer;
+  position: relative;
+  z-index: 1;
+  overflow: hidden;
+}
+
+button:hover {
+  color: black;
+}
+
+button:after {
+  content: "";
+  background: white;
+  position: absolute;
+  z-index: -1;
+  left: -20%;
+  right: -20%;
+  top: 0;
+  bottom: 0;
+  transform: skewX(-45deg) scale(0, 1);
+  transition: all 0.5s;
+}
+
+button:hover:after {
+  transform: skewX(-45deg) scale(1, 1);
+  -webkit-transition: all 0.5s;
+  transition: all 0.5s;
+}
+.ctn-button {
+  padding: 2.5rem;
+  flex: 1;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+  width: 100%;
+
+  @media (max-width: 768px) {
+    padding: 1.5rem;
+    flex-direction: column;
+    gap: 0.7rem;
+  }
+}
+

@@ -1,0 +1,231 @@
+.ventas-container {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  padding: 20px;
+}
+
+h2 {
+  margin-bottom: 10px;
+  font-size: 20px;
+  font-weight: 600;
+}
+
+/* ------------------------------
+   5.1 ENCABEZADO DE VENTA
+--------------------------------*/
+.encabezado {
+  background: #fafafa;
+  padding: 15px;
+  border-radius: 8px;
+
+  .form-row {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 15px;
+  }
+
+  .form-group {
+    display: flex;
+    flex-direction: column;
+
+    label {
+      margin-bottom: 5px;
+      font-weight: 500;
+    }
+
+    input,
+    select {
+      padding: 8px;
+      border-radius: 5px;
+      border: 1px solid #ddd;
+    }
+  }
+}
+
+/* ------------------------------
+   5.2 DETALLE DE PRODUCTOS
+--------------------------------*/
+.detalle {
+  background: #ffffff;
+  padding: 15px;
+  border-radius: 8px;
+
+  .buscador-productos {
+    margin-bottom: 15px;
+
+    input {
+      width: 100%;
+      padding: 8px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+    }
+  }
+
+  /* ✅ contenedor responsive de la tabla */
+  .tabla-responsive {
+    width: 100%;
+    overflow-x: auto;
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    min-width: 750px; /* ✅ evita que se aplaste en móvil */
+    margin-top: 10px;
+
+    th {
+      background: #f3f3f3;
+      padding: 10px;
+      font-weight: 600;
+      border-bottom: 2px solid #e5e5e5;
+    }
+
+    td {
+      padding: 8px;
+      border-bottom: 1px solid #eee;
+      text-align: center;
+    }
+
+    input[type="number"] {
+      width: 70px;
+      padding: 5px;
+      text-align: center;
+    }
+
+    .eliminar {
+      cursor: pointer;
+      border: none;
+      background: transparent;
+      font-size: 16px;
+    }
+  }
+}
+
+/* ------------------------------
+   5.3 PIE DE VENTA
+--------------------------------*/
+.pie {
+  background: #fafafa;
+  padding: 15px;
+  border-radius: 8px;
+
+  .resumen-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 15px;
+
+    div {
+      background: #fff;
+      padding: 10px;
+      border-radius: 6px;
+      border: 1px solid #eee;
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+
+      label {
+        font-size: 14px;
+        color: #666;
+      }
+
+      span {
+        font-size: 16px;
+        font-weight: 600;
+      }
+    }
+  }
+
+  .acciones {
+    margin-top: 20px;
+    display: flex;
+    gap: 15px;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+}
+
+/* ---------------------------
+   BOTONES UIVERSE
+---------------------------- */
+.acciones {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  margin-top: 1.5rem;
+  flex-wrap: wrap;
+
+  .btn-finalizar,
+  .btn-cancelar {
+    width: 8em;
+    height: 2.8em;
+    margin: 0.5em;
+    color: white;
+    border: none;
+    border-radius: 0.625em;
+    font-size: 17px;
+    font-weight: bold;
+    cursor: pointer;
+    position: relative;
+    z-index: 1;
+    overflow: hidden;
+  }
+
+  .btn-finalizar {
+    background: seagreen;
+  }
+
+  .btn-cancelar {
+    background: #d43619;
+  }
+
+  button:hover {
+    color: #000;
+  }
+
+  button::after {
+    content: "";
+    background: white;
+    position: absolute;
+    z-index: -1;
+    left: -20%;
+    right: -20%;
+    top: 0;
+    bottom: 0;
+    transform: skewX(-45deg) scale(0, 1);
+    transition: all 0.5s;
+  }
+
+  button:hover::after {
+    transform: skewX(-45deg) scale(1, 1);
+  }
+}
+
+/* ---------------------------
+      RESPONSIVE
+---------------------------- */
+@media (max-width: 900px) {
+  .encabezado .form-row {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .pie .resumen-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 600px) {
+  .encabezado .form-row {
+    grid-template-columns: 1fr;
+  }
+
+  .pie .resumen-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .acciones .btn-finalizar,
+  .acciones .btn-cancelar {
+    width: 100%;
+    max-width: 260px;
+  }
+}

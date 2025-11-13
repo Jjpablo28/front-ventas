@@ -1,0 +1,198 @@
+<div class="clientes-container">
+
+  <h1>Módulo de Clientes</h1>
+
+  <!-- BOTONES -->
+  <div class="button-container">
+    <button class="btn" (click)="open('list')">Listado</button>
+    <button class="btn" (click)="open('create')">Crear cliente</button>
+    <button class="btn" (click)="open('edit')">Editar cliente</button>
+    <button class="btn" (click)="open('delete')">Eliminar cliente</button>
+  </div>
+
+  <!-- 4.1 LISTADO -->
+  <section *ngIf="showList" class="section-box">
+    <h2>4.1 Listado de Clientes</h2>
+
+    <table class="client-table">
+      <thead>
+      <tr>
+        <th>Nombre</th>
+        <th>Tipo ID</th>
+        <th>Número</th>
+        <th>Municipio</th>
+        <th>Departamento</th>
+        <th>Teléfono</th>
+        <th>Tipo Pago</th>
+      </tr>
+      </thead>
+
+      <tbody>
+      <tr *ngFor="let cli of clientes">
+        <td>{{ cli.nombre }}</td>
+        <td>{{ cli.tipoIdentificacion }}</td>
+        <td>{{ cli.identificacion }}</td>
+        <td>{{ cli.municipio }}</td>
+        <td>{{ cli.departamento }}</td>
+        <td>{{ cli.telefono }}</td>
+        <td>{{ cli.tipoPago }}</td>
+      </tr>
+      </tbody>
+    </table>
+
+  </section>
+
+  <!-- 4.2 CREAR -->
+  <section *ngIf="showCreate" class="section-box">
+    <h2>4.2 Crear Cliente</h2>
+
+    <form class="form-grid">
+
+      <div>
+        <label>Nombre</label>
+        <input type="text" [(ngModel)]="clienteForm.nombre" name="nombre">
+      </div>
+
+      <div>
+        <label>Tipo de ID</label>
+        <select [(ngModel)]="clienteForm.tipoIdentificacion" name="tipoId">
+          <option>CC</option>
+          <option>TI</option>
+          <option>NIT</option>
+        </select>
+      </div>
+
+      <div>
+        <label>Número ID</label>
+        <input type="text" [(ngModel)]="clienteForm.identificacion" name="id">
+      </div>
+
+      <div>
+        <label>Departamento</label>
+        <select [(ngModel)]="clienteForm.departamento" (change)="cargarDepartamentos()" name="departamento">
+          <option *ngFor="let d of departamentos">{{ d }}</option>
+        </select>
+      </div>
+
+      <div>
+        <label>Municipio</label>
+        <select [(ngModel)]="clienteForm.municipio" name="municipio">
+          <option *ngFor="let m of municipios">{{ m }}</option>
+        </select>
+      </div>
+
+      <div class="grid-full">
+        <label>Dirección</label>
+        <input type="text" [(ngModel)]="clienteForm.direccion" name="direccion">
+      </div>
+
+      <div>
+        <label>Teléfono</label>
+        <input type="text" [(ngModel)]="clienteForm.telefono" name="telefono">
+      </div>
+
+      <div>
+        <label>Correo</label>
+        <input type="email" [(ngModel)]="clienteForm.correo" name="correo">
+      </div>
+
+      <div>
+        <label>Tipo de pago</label>
+        <select [(ngModel)]="clienteForm.tipoPago" name="tipoPago">
+          <option>contado</option>
+          <option>crédito</option>
+          <option>mixto</option>
+        </select>
+      </div>
+
+      <button class="save-btn">Guardar cliente</button>
+
+    </form>
+
+  </section>
+
+  <!-- 4.3 EDITAR -->
+  <section *ngIf="showEdit" class="section-box">
+    <h2>4.3 Editar Cliente</h2>
+
+    <p class="info-text">Aquí editas el cliente seleccionado.</p>
+
+    <form class="form-grid">
+
+      <div>
+        <label>Nombre</label>
+        <input type="text" [(ngModel)]="clienteForm.nombre" name="editNombre">
+      </div>
+
+      <div>
+        <label>Tipo de ID</label>
+        <select [(ngModel)]="clienteForm.tipoIdentificacion" name="editTipoId">
+          <option>CC</option>
+          <option>TI</option>
+          <option>NIT</option>
+        </select>
+      </div>
+
+      <div>
+        <label>Número ID</label>
+        <input type="text" [(ngModel)]="clienteForm.identificacion" name="editId">
+      </div>
+
+      <div>
+        <label>Departamento</label>
+        <select [(ngModel)]="clienteForm.departamento" name="editDep">
+          <option *ngFor="let d of departamentos">{{ d }}</option>
+        </select>
+      </div>
+
+      <div>
+        <label>Municipio</label>
+        <select [(ngModel)]="clienteForm.municipio" name="editMun">
+          <option *ngFor="let m of municipios">{{ m }}</option>
+        </select>
+      </div>
+
+      <div class="grid-full">
+        <label>Dirección</label>
+        <input type="text" [(ngModel)]="clienteForm.direccion" name="editDir">
+      </div>
+
+      <div>
+        <label>Teléfono</label>
+        <input type="text" [(ngModel)]="clienteForm.telefono" name="editTel">
+      </div>
+
+      <div>
+        <label>Correo</label>
+        <input type="email" [(ngModel)]="clienteForm.correo" name="editCorreo">
+      </div>
+
+      <div>
+        <label>Tipo de pago</label>
+        <select [(ngModel)]="clienteForm.tipoPago" name="editTipoPago">
+          <option>contado</option>
+          <option>crédito</option>
+          <option>mixto</option>
+        </select>
+      </div>
+
+      <button class="save-btn">Guardar cambios</button>
+
+    </form>
+  </section>
+
+  <!-- 4.4 ELIMINAR -->
+  <section *ngIf="showDelete" class="section-box">
+    <h2>4.4 Eliminar Cliente</h2>
+
+    <div class="delete-box">
+      <p>¿Estás seguro de eliminar este cliente?</p>
+
+      <div class="btn-row">
+        <button class="danger-btn">Eliminar</button>
+        <button class="cancel-btn" (click)="reset()">Cancelar</button>
+      </div>
+    </div>
+  </section>
+
+</div>

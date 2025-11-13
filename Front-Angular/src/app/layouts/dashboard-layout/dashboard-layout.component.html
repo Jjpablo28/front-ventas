@@ -1,0 +1,32 @@
+<div class="dashboard-layout">
+  <div class="sidebar-overlay" [ngClass]="{ 'active': sidebarOpen }" (click)="toggleSidebar()"></div>
+
+  <aside class="sidebar" [ngClass]="{ 'open': sidebarOpen }">
+    <div routerLink="/inicio" routerLinkActive="active" style="cursor: pointer" class="logo">Gestiónix</div>
+    <nav>
+      <a routerLink="/inicio" routerLinkActive="active">Inicio</a>
+      <a routerLink="/productos" routerLinkActive="active">Productos</a>
+      <a routerLink="/categorias" routerLinkActive="active">Categorias</a>
+      <a routerLink="/ventas" routerLinkActive="active">Ventas</a>
+      <a routerLink="/reportes" routerLinkActive="active">Reportes</a>
+      <a routerLink="/usuario" routerLinkActive="active">Crear Usuarios</a>
+      <a routerLink="/cliente" routerLinkActive="active">Clientes</a>
+      <a routerLink="/login" routerLinkActive="active">Salir</a>
+    </nav>
+  </aside>
+
+  <div class="main-content">
+    <header class="header">
+      <button class="menu-toggle" (click)="toggleSidebar()">☰</button>
+      <h1 style="text-align: center">Bienvenido, {{ user }} 👋</h1>
+      <button class="exit" routerLink="/login" routerLinkActive="active">
+        <img class="salir" src="assets/img/cerrar-sesion.png" alt="Entrega" width="24" height="24">
+      </button>
+
+
+    </header>
+    <section class="content">
+      <router-outlet></router-outlet>
+    </section>
+  </div>
+</div>

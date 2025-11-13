@@ -1,0 +1,150 @@
+<div class="ventas-container">
+
+  <!-- ===========================
+        5.1 ENCABEZADO DE VENTA
+  ============================ -->
+  <section class="encabezado">
+    <h2>Encabezado de Venta</h2>
+
+    <div class="form-row">
+      <div class="form-group">
+        <label>Fecha y hora</label>
+        <input type="text" [value]="fechaActual" readonly/>
+      </div>
+
+      <div class="form-group">
+        <label>Cliente</label>
+        <input
+          type="text"
+          placeholder="Buscar cliente..."
+          (input)="buscarCliente($event)"
+          [(ngModel)]="clienteSeleccionadoNombre"
+          [attr.list]="'clientes'"
+        />
+        <datalist id="clientes">
+          <option *ngFor="let c of listaClientes" [value]="c.nombre"></option>
+        </datalist>
+      </div>
+
+      <div class="form-group">
+        <label>Número de factura</label>
+        <input type="text" [value]="numeroFactura" readonly/>
+      </div>
+
+      <div class="form-group">
+        <label>Forma de pago</label>
+        <select [(ngModel)]="formaPago">
+          <option value="contado">Contado</option>
+          <option value="credito">Crédito</option>
+        </select>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===========================
+        5.2 DETALLE DE PRODUCTOS
+  ============================ -->
+  <section class="detalle">
+    <h2>Detalle de Productos</h2>
+
+    <!-- Buscador -->
+    <div class="buscador-productos">
+      <input
+        type="text"
+        placeholder="Buscar producto por código o nombre..."
+        (input)="buscarProducto($event)"
+        [(ngModel)]="productoBusqueda"
+        [attr.list]="'productos'"
+      />
+      <datalist id="productos">
+        <option *ngFor="let p of listaProductos" [value]="p.nombre"></option>
+      </datalist>
+    </div>
+
+    <!-- Tabla dinámica -->
+    <div class="tabla-responsive">
+      <table>
+        <thead>
+        <tr>
+          <th>Código</th>
+          <th>Nombre</th>
+          <th>Cantidad</th>
+          <th>V. Unitario</th>
+          <th>IVA %</th>
+          <th>Antes IVA</th>
+          <th>IVA</th>
+          <th>Total</th>
+          <th></th>
+        </tr>
+        </thead>
+
+        <tbody>
+        <tr *ngFor="let item of carrito; let i = index">
+          <td>{{ item.codigo }}</td>
+          <td>{{ item.nombre }}</td>
+
+          <td>
+            <input
+              type="number"
+              min="1"
+              [(ngModel)]="item.cantidad"
+              (input)="cambiarCantidad(i)"
+            />
+          </td>
+
+          <td>{{ item.valorUnitario | currency }}</td>
+          <td>{{ item.iva }}%</td>
+          <td>{{ item.valorAntesIva | currency }}</td>
+          <td>{{ item.valorIva | currency }}</td>
+          <td>{{ item.totalLinea | currency }}</td>
+
+          <td>
+            <button class="eliminar" (click)="eliminarItem(i)">✖</button>
+          </td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- ===========================
+        5.3 PIE DE VENTA
+  ============================ -->
+  <section class="pie">
+    <h2>Resumen</h2>
+
+    <div class="resumen-grid">
+      <div>
+        <label>Total productos:</label>
+        <span>{{ totalProductos }}</span>
+      </div>
+
+      <div>
+        <label>Gravados:</label>
+        <span>{{ totalGravados }}</span>
+      </div>
+
+      <div>
+        <label>No gravados:</label>
+        <span>{{ totalNoGravados }}</span>
+      </div>
+
+      <div>
+        <label>Total IVA:</label>
+        <span>{{ totalIva | currency }}</span>
+      </div>
+
+      <div>
+        <label>Total general:</label>
+        <span>{{ totalGeneral | currency }}</span>
+      </div>
+    </div>
+
+    <div class="acciones">
+      <button class="btn-finalizar">Finalizar venta</button>
+      <button class="btn-cancelar">Cancelar venta</button>
+    </div>
+
+  </section>
+
+</div>

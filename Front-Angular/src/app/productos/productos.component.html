@@ -1,0 +1,192 @@
+<div class="productos-container">
+
+  <h1>Módulo de Productos</h1>
+
+
+  <div class="button-container">
+    <button class="btn" (click)="toggle(21)">Listado de productos</button>
+    <button class="btn" (click)="toggle(22)">Crear producto</button>
+    <button class="btn" (click)="toggle(23)">Editar producto</button>
+    <button class="btn" (click)="toggle(24)">Eliminar producto</button>
+    <button class="btn btn-salir" routerLink="/inicio">
+      <img class="icono-salir" src="assets/img/casa-blanca.png" width="24" height="24">
+    </button>
+
+
+
+  </div>
+
+
+  <section *ngIf="show21" class="section-box">
+    <h2>Listado de productos</h2>
+
+    <table class="product-table">
+      <thead>
+      <tr>
+        <th>Código</th>
+        <th>Nombre</th>
+        <th>Precio</th>
+        <th>IVA</th>
+        <th>Stock</th>
+        <th>Línea de producto</th>
+        <th>Imagen</th>
+        <th>Acciones</th>
+      </tr>
+      </thead>
+
+      <tbody>
+      <tr>
+        <td>001</td>
+        <td>Peluche Oso</td>
+        <td>$50.000</td>
+        <td>19%</td>
+        <td>20</td>
+        <td>Juguetes Suaves</td>
+        <td><img src="#" alt="Imagen" class="mini-img"/></td>
+        <td>
+          <button class="edit-btn">Editar</button>
+          <button class="delete-btn">Eliminar</button>
+        </td>
+      </tr>
+
+      <tr>
+        <td colspan="8" class="new-product">
+          <button class="create-btn">Crear nuevo producto</button>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+
+  </section>
+
+
+  <section *ngIf="show22" class="section-box">
+    <h2>Crear producto</h2>
+
+    <form class="form-grid" (ngSubmit)="crearProducto()">
+
+      <div>
+        <label>Código</label>
+        <input type="text" [(ngModel)]="codigo" name="cod">
+      </div>
+
+      <div>
+        <label>Nombre</label>
+        <input type="text" [(ngModel)]="nombre" name="nombre">
+      </div>
+
+      <div class="grid-full">
+        <label>Descripción</label>
+        <textarea rows="3" [(ngModel)]="descripcion" name="descripcion"></textarea>
+      </div>
+
+      <div>
+        <label>Stock</label>
+        <input type="number" [(ngModel)]="stock" name="stock">
+      </div>
+
+      <div>
+        <label>Precio base</label>
+        <input type="number" [(ngModel)]="precioBase" name="pBase">
+      </div>
+
+      <div>
+        <label>Porcentaje de IVA</label>
+        <input type="number" [(ngModel)]="porcentaje" name="iva">
+      </div>
+
+      <div>
+        <label>Línea de producto</label>
+        <select [(ngModel)]="categoria">
+          <option *ngFor="let cat of categoria" [value]="cat.id">
+            {{ cat.nombre }}
+          </option>
+        </select>
+      </div>
+
+
+      <div class="grid-full">
+        <label>Imagen</label>
+        <input type="file">
+      </div>
+
+      <button class="save-btn">Guardar producto</button>
+
+    </form>
+  </section>
+
+
+  <section *ngIf="show23" class="section-box">
+    <h2>Editar producto</h2>
+
+    <p class="info-text">Los datos aparecen precargados del producto seleccionado.</p>
+
+    <form class="form-grid">
+
+      <div>
+        <label>Código</label>
+        <input type="text" value="001">
+      </div>
+
+      <div>
+        <label>Nombre</label>
+        <input type="text" value="Peluche Oso">
+      </div>
+
+      <div class="grid-full">
+        <label>Descripción</label>
+        <textarea rows="3">Peluche suave tamaño mediano</textarea>
+      </div>
+
+      <div>
+        <label>Stock</label>
+        <input type="number" value="20">
+      </div>
+
+      <div>
+        <label>Precio base</label>
+        <input type="number" value="50000">
+      </div>
+
+      <div>
+        <label>Porcentaje de IVA</label>
+        <input type="number" value="19">
+      </div>
+
+      <div>
+        <label>Línea de producto</label>
+        <select>
+          <option selected>Juguetes suaves</option>
+          <option>Juegos de mesa</option>
+          <option>Construcción</option>
+          <option>Videojuegos</option>
+        </select>
+      </div>
+
+      <div class="grid-full">
+        <label>Imagen</label>
+        <input type="file">
+      </div>
+
+      <button class="save-btn">Guardar cambios</button>
+
+    </form>
+  </section>
+
+
+  <section *ngIf="show24" class="section-box">
+    <h2>Eliminar producto</h2>
+
+    <div class="delete-box">
+      <p>¿Estás seguro que deseas eliminar este producto?</p>
+
+      <div class="btn-row">
+        <button class="danger-btn">Eliminar</button>
+        <button class="cancel-btn">Cancelar</button>
+      </div>
+    </div>
+
+  </section>
+
+
+</div>
