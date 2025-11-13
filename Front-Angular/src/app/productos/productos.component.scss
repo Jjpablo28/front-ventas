@@ -1,3 +1,4 @@
+/* Estilos generales para el contenedor de productos */
 .productos-container {
   padding: 2rem;
 
@@ -7,9 +8,9 @@
   }
 }
 
-/* ===========================
-   BOTONES PRINCIPALES (LOS TUYOS)
-   =========================== */
+/* ==========================
+   BOTONES PRINCIPALES
+   ========================== */
 .button-container {
   display: flex;
   justify-content: center;
@@ -56,10 +57,9 @@
   }
 }
 
-/* ===========================
+/* ==========================
    SECCIONES (2.1 – 2.4)
-   =========================== */
-
+   ========================== */
 .section-box {
   background: #fff;
   padding: 1.5rem;
@@ -84,10 +84,9 @@
   to { opacity: 1; transform: translateY(0); }
 }
 
-/* ===========================
+/* ==========================
    TABLA DE LISTADO (2.1)
-   =========================== */
-
+   ========================== */
 .product-table {
   width: 100%;
   border-collapse: collapse;
@@ -134,10 +133,9 @@
   padding-top: 1rem;
 }
 
-/* ===========================
+/* ==========================
    FORMULARIOS (2.2 y 2.3)
-   =========================== */
-
+   ========================== */
 .form-grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
@@ -188,10 +186,9 @@
   }
 }
 
-/* ===========================
+/* ==========================
    ELIMINAR PRODUCTO (2.4)
-   =========================== */
-
+   ========================== */
 .delete-box {
   background: #fff5f5;
   border-left: 4px solid #e74c3c;
@@ -229,12 +226,55 @@
   }
 }
 
-
-.btn-salir:hover img {
-  content: url('/assets/img/casa.png');
+/* ==========================
+   REDIMENSIONAR SOLO HACIA ABAJO EL "TEXTAREA"
+   ========================== */
+textarea {
+  resize: vertical;   /* Permite solo redimensionar hacia abajo o arriba */
+  min-height: 80px;    /* Altura mínima para el campo de descripción */
+  max-width: 100%;     /* Evita el redimensionamiento horizontal */
 }
 
+/* ==========================
+   RESPONDER AL CAMBIO DE TAMAÑO DE PANTALLA
+   ========================== */
+@media (max-width: 600px) {
+  .form-grid {
+    grid-template-columns: 1fr; /* Una columna en pantallas pequeñas */
+  }
 
+  .save-btn {
+    width: 100%; /* Botón ocupa todo el ancho en móviles */
+  }
 
+  .product-table {
+    display: block; /* Cambia la tabla a un bloque en pantallas pequeñas */
+    overflow-x: auto; /* Añade desplazamiento horizontal en dispositivos pequeños */
+    -webkit-overflow-scrolling: touch;
+  }
 
+  .line-table thead {
+    display: none; /* Oculta el encabezado en pantallas pequeñas */
+  }
 
+  .line-table tbody,
+  .line-table td {
+    display: block;
+    width: 100%;
+    text-align: right;
+    border: 1px solid #ddd;
+  }
+
+  .line-table td {
+    text-align: left;
+    padding: 10px;
+  }
+
+  .line-table td::before {
+    content: attr(data-label);
+    font-weight: bold;
+    display: inline-block;
+    width: 50%;
+    text-align: left;
+  }
+}

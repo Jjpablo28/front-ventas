@@ -6,17 +6,18 @@ import {map, Observable, tap} from 'rxjs';
   providedIn: 'root'
 })
 export class ProductosService {
-  private apiUrl = 'http://127.0.0.1:8000/api/productos/';
-  private apiUrlCat = 'http://127.0.0.1:8000/api/lineasproducto/';
+  private apiUrl = 'https://sistema-de-ventas-uumw.onrender.com/api/productos/';
+  private apiUrlCat = 'https://sistema-de-ventas-uumw.onrender.com/api/lineasproducto/';
+  private apiUrlImg = 'https://sistema-de-ventas-uumw.onrender.com/api/productoimagenes/';
 
   constructor(private http: HttpClient) {
   }
   crearProducto(data: any): Observable<any> {
     return this.http.post(this.apiUrl, data);
   }
-/* getProducto(): Observable<any> {
+  getProducto(): Observable<any> {
     return this.http.get(this.apiUrl);
-  }*/
+  }
   getCategorias(): Observable<any> {
     return this.http.get(this.apiUrlCat);
   }
@@ -25,6 +26,9 @@ export class ProductosService {
   }
   eliminarProducto(id: number) {
     return this.http.delete(`${this.apiUrl}${id}/`);
+  }
+  subirImagen(id: number, data: any)  {
+    return this.http.post(this.apiUrlImg, data);
   }
 
 }

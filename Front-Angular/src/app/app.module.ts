@@ -17,6 +17,7 @@ import { UsuariosComponent } from './usuarios/usuarios.component';
 import { CategoriasComponent } from './categorias/categorias.component';
 import { ClientesComponent } from './clientes/clientes.component';
 import {TokenInterceptor} from "./interceptors/token.interceptor";
+import {NgOptimizedImage} from "@angular/common";
 
 
 
@@ -35,12 +36,13 @@ import {TokenInterceptor} from "./interceptors/token.interceptor";
     CategoriasComponent,
     ClientesComponent
   ],
-  imports: [
-    BrowserModule,
-    FormsModule,
-    AppRoutingModule,
-    HttpClientModule
-  ],
+    imports: [
+        BrowserModule,
+        FormsModule,
+        AppRoutingModule,
+        HttpClientModule,
+        NgOptimizedImage
+    ],
   providers: [  /*{
     provide: HTTP_INTERCEPTORS,
     useClass: TokenInterceptor,
