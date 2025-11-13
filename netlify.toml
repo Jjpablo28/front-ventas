@@ -2,8 +2,6 @@
 
   base = "Front-Angular" 
 
-
   command = "npm run build"
-  
-  publish = "Front-Angular/dist/front-angular" 
-  
+
+  publish = "dist/front-angular"
