@@ -76,7 +76,7 @@
 
       <div>
         <label>Rol</label>
-        <select [(ngModel)]="eRol" name="rol">
+        <select [(ngModel)]="rol" name="rol">
           <option>Administrador</option>
           <option>Empleado</option>
         </select>
@@ -103,12 +103,16 @@
 
       <div>
         <label>Nombre completo</label>
-        <input type="text" [(ngModel)]="eNombreCompleto" name="eName" />
+        <input type="text" [(ngModel)]="nombreCompleto" name="eName" />
+      </div>
+      <div>
+        <label>Usuario</label>
+        <input type="text" [(ngModel)]="user" name="user">
       </div>
 
       <div>
         <label>Correo electrónico</label>
-        <input type="email" [(ngModel)]="eCorreo" name="eCorreo" />
+        <input type="email" [(ngModel)]="correo" name="eCorreo" />
       </div>
 
       <div>
@@ -140,8 +144,8 @@
       <p>¿Deseas desactivar este usuario?</p>
 
       <div class="btn-row">
-        <button class="danger-btn">Desactivar</button>
-        <button class="cancel-btn">Cancelar</button>
+        <button class="danger-btn" (click)="eliminarUsuario()" >Eliminar</button>
+        <button class="cancel-btn"(click)="toggle(1)">Cancelar</button>
       </div>
     </div>
   </section>
