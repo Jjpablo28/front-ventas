@@ -1,11 +1,7 @@
 [build]
-
-  command = "ng build --prod"
-
-
+  command = "npm install && ng build --prod"
   publish = "dist/front-angular"
-
-  base = "."
+  base = "/"
 
 [build.environment]
   NODE_VERSION = "16"
