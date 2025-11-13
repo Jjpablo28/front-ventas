@@ -1,0 +1,17 @@
+[build]
+
+  command = "ng build --prod"
+
+
+  publish = "dist/front-angular"
+
+  base = "."
+
+[build.environment]
+  NODE_VERSION = "16"
+
+[context.deploy-preview]
+  command = "ng build --prod"
+  publish = "dist/front-angular"
+
+[context.production.environment]
