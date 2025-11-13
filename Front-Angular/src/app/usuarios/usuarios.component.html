@@ -7,8 +7,8 @@
     <button class="btn" (click)="toggle(1)">Listado de usuarios</button>
     <button class="btn" (click)="toggle(2)">Crear usuario</button>
     <button class="btn" (click)="toggle(3)">Editar usuario</button>
-    <button class="btn" (click)="toggle(4)">Desactivar usuario</button>
-    <button class="btn" (click)="toggle(5)">Resetear contraseña</button>
+    <button class="btn" (click)="toggle(4)">Eliminar usuario</button>
+   <!--<button class="btn" (click)="toggle(5)">Resetear contraseña</button>-->
     <button class="btn btn-salir" routerLink="/inicio">
       <img class="icono-salir" src="assets/img/casa-blanca.png" width="24" height="24">
     </button>
@@ -20,29 +20,29 @@
   <section *ngIf="show1" class="section-box">
     <h2>Listado de usuarios</h2>
 
-    <table class="user-table">
+    <table class="product-table">
       <thead>
       <tr>
         <th>ID</th>
+        <th>Username</th>
         <th>Nombre</th>
         <th>Correo</th>
         <th>Rol</th>
-        <th>Estado</th>
         <th>Acciones</th>
       </tr>
       </thead>
 
       <tbody>
-      <tr>
-        <td>001</td>
-        <td>Juan Pérez</td>
-        <td>Correo prueba</td>
-        <td>Admin</td>
-        <td>Activo</td>
+      <tr *ngFor="let user of usuarios">
+        <td>{{user.id}}</td>
+        <td>{{user.username}}</td>
+        <td>{{user.nombre_completo}}</td>
+        <td>{{user.email}}</td>
+        <td>{{user.rol}}</td>
         <td>
-          <button class="edit-btn">Editar</button>
-          <button class="disable-btn">Desactivar</button>
-          <button class="disable-btn">Cambiar Contraseña</button>
+          <button class="edit-btn" (click)="seleccionarEditar(user)">Editar</button>
+          <button class="delete-btn" (click)="seleccionarEliminar(user)">Eliminar</button>
+          <!--<button class="update-btn">Cambiar Contraseña</button>-->
         </td>
       </tr>
       </tbody>
@@ -54,38 +54,41 @@
   <section *ngIf="show2" class="section-box">
     <h2>Crear usuario</h2>
 
-    <form class="form-grid">
+    <form class="form-grid" (ngSubmit)="crearUsuario()">
 
       <div>
         <label>Nombre completo</label>
-        <input type="text" />
+        <input type="text" [(ngModel)]="nombreCompleto" name="nombre">
       </div>
-
+      <div>
+        <label>Usuario</label>
+        <input type="text" [(ngModel)]="user" name="user">
+      </div>
       <div>
         <label>Correo electrónico</label>
-        <input type="email" />
+        <input type="email" [(ngModel)]="correo" name="email">
       </div>
 
       <div>
         <label>Contraseña</label>
-        <input type="password" />
+        <input type="password" [(ngModel)]="contrasena" name="pass">
       </div>
 
       <div>
         <label>Rol</label>
-        <select>
+        <select [(ngModel)]="eRol" name="rol">
           <option>Administrador</option>
           <option>Empleado</option>
         </select>
       </div>
-
+<!--
       <div>
         <label>Estado</label>
         <select>
           <option>Activo</option>
           <option>Inactivo</option>
         </select>
-      </div>
+      </div>-->
 
       <button class="save-btn">Registrar usuario</button>
     </form>
@@ -96,33 +99,33 @@
   <section *ngIf="show3" class="section-box">
     <h2>Editar usuario</h2>
 
-    <form class="form-grid">
+    <form class="form-grid" (ngSubmit)="actualizarUsuario()">
 
       <div>
         <label>Nombre completo</label>
-        <input type="text" value="Juan Pérez" />
+        <input type="text" [(ngModel)]="eNombreCompleto" name="eName" />
       </div>
 
       <div>
         <label>Correo electrónico</label>
-        <input type="email" value="juan@example.com" />
+        <input type="email" [(ngModel)]="eCorreo" name="eCorreo" />
       </div>
 
       <div>
         <label>Rol</label>
-        <select>
+        <select [(ngModel)]="rol" name="eRol">
           <option selected>Administrador</option>
           <option>Empleado</option>
         </select>
       </div>
-
+<!--
       <div>
         <label>Estado</label>
         <select>
           <option selected>Activo</option>
           <option>Inactivo</option>
         </select>
-      </div>
+      </div>-->
 
       <button class="save-btn">Guardar cambios</button>
     </form>

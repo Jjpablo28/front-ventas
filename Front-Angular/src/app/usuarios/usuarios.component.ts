@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {UsuariosService} from "./usuarios.service";
 
 @Component({
@@ -6,19 +6,24 @@ import {UsuariosService} from "./usuarios.service";
   templateUrl: './usuarios.component.html',
   styleUrl: './usuarios.component.scss'
 })
-export class UsuariosComponent {
+export class UsuariosComponent implements OnInit {
 
-  constructor(private usuariosService: UsuariosService) {}
+  constructor(private usuariosService: UsuariosService) {
+  }
 
-  nombreCompleto:any='';
-  correo:any='';
-  contrasena:any='';
-  rol:any='';
-  estado:any='';
-  eNombreCompleto:any='';
-  eCorreo:any='';
-  eRol:any='';
-  eEstado:any='';
+  nombreCompleto: any = '';
+  correo: any = '';
+  user: any = '';
+  contrasena: any = '';
+  rol: any = '';
+  estado: any = '';
+  eNombreCompleto: any = '';
+  eCorreo: any = '';
+  usuarioSeleccionado: any = '';
+  eRol: any = '';
+  eEstado: any = '';
+  usuarios: any[] = [];
+  userId:any='';
 
   show1 = false;
   show2 = false;
@@ -39,4 +44,67 @@ export class UsuariosComponent {
     if (section === 4) this.show4 = true;
     if (section === 5) this.show5 = true;
   }
+
+  ngOnInit(): void {
+    this.cargarUsuarios();
+  }
+
+  cargarUsuarios() {
+    this.usuariosService.getUser().subscribe({
+        next: (data) => {
+          this.usuarios = data;
+        },
+        error: (err) => {
+          console.log('Error al cargar los usuarios' + err);
+
+        }
+      }
+    )
+  }
+
+  crearUsuario() {
+
+    if (this.rol == 'Administrador') {
+      this.rol = 'ADMIN';
+    } else {
+      this.rol = 'USER';
+    }
+    const body = {
+      username: this.user,
+      email: this.correo,
+      rol: this.rol,
+      nombre_completo: this.nombreCompleto,
+    };
+    this.usuariosService.crearUser(body).subscribe({
+      next: (data) => {
+        console.log('Crear usuario');
+      },
+      error: (err) => {
+        console.log(err);
+      }
+    })
+
+  }
+
+  seleccionarEditar(usuario: any) {
+  this.usuarioSeleccionado=usuario
+  }
+
+  actualizarUsuario() {
+
+  }
+
+  seleccionarEliminar(usuario: any) {
+    this.usuarioSeleccionado=usuario
+
+    this.userId=this.usuarioSeleccionado.id
+    console.log(this.usuarioSeleccionado.id)
+
+  }
+
+  eliminarUsuario() {
+
+  }
+
+
 }

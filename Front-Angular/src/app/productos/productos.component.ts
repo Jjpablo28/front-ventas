@@ -100,7 +100,7 @@ export class ProductosComponent implements OnInit {
       estado: 'activo',
       linea: this.linea
     };
-    console.log(body);
+
     this.productosService.crearProducto(body).subscribe({
       next: (resp) => {
         const nuevoId = resp.id;
