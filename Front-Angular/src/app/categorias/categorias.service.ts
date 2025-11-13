@@ -6,7 +6,7 @@ import {map, Observable, tap} from 'rxjs';
   providedIn: 'root'
 })
 export class CategoriasService {
-  private apiUrl = 'http://127.0.0.1:8000/api/lineasproducto/';
+  private apiUrl = 'https://sistema-de-ventas-uumw.onrender.com/api/lineasproducto/';
 
 
   constructor(private http: HttpClient) {
