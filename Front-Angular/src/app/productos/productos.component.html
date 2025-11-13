@@ -41,10 +41,11 @@
         <td>{{ producto.iva_porcentaje }}</td>
         <td>{{ producto.stock_total }}</td>
         <td>{{ producto.linea }}</td>
-        <td><img [src]="producto.imagenes[0].imagen_url" alt="Imagen" class="mini-img"/></td>
         <td>
-          <button class="edit-btn">Editar</button>
-          <button class="delete-btn">Eliminar</button>
+          <img [src]="producto.imagenes[0].imagen_url" alt="Imagen" class="mini-img"/></td>
+        <td>
+          <button class="edit-btn" (click)="editarProducto(producto)">Editar</button>
+          <button class="delete-btn"(click)="seleccionarProductoE(producto)">Eliminar</button>
         </td>
       </tr>
 
@@ -129,45 +130,43 @@
 
     <p class="info-text">Los datos aparecen precargados del producto seleccionado.</p>
 
-    <form class="form-grid">
+    <form class="form-grid" (ngSubmit)="actualizarProducto()">
 
       <div>
         <label>Código</label>
-        <input type="text" value="001">
+        <input type="text" [(ngModel)]="codigo" name="cod"readonly>
       </div>
 
       <div>
         <label>Nombre</label>
-        <input type="text" value="Peluche Oso">
+        <input type="text" [(ngModel)]="nombre" name="nom" >
       </div>
 
       <div class="grid-full">
         <label>Descripción</label>
-        <textarea rows="3">Peluche suave tamaño mediano</textarea>
+        <textarea rows="3" [(ngModel)]="descripcion" name="des" ></textarea>
       </div>
 
       <div>
         <label>Stock</label>
-        <input type="number" value="20">
+        <input type="number" [(ngModel)]="stockE" name="st">
       </div>
 
       <div>
         <label>Precio base</label>
-        <input type="number" value="50000">
+        <input type="number" [(ngModel)]="precioBase" name="baseP">
       </div>
 
       <div>
         <label>Porcentaje de IVA</label>
-        <input type="number" value="19">
+        <input type="number" [(ngModel)]="porcentaje" name="iva">
       </div>
 
       <div>
         <label>Línea de producto</label>
-        <select>
-          <option selected>Juguetes suaves</option>
-          <option>Juegos de mesa</option>
-          <option>Construcción</option>
-          <option>Videojuegos</option>
+        <select [(ngModel)]="linea" (change)="generarCodigo(linea)" name="linea">
+          <option *ngFor="let cat of categoria" [value]="cat.id">
+            {{ cat.nombre }}
         </select>
       </div>
 
@@ -189,8 +188,8 @@
       <p>¿Estás seguro que deseas eliminar este producto?</p>
 
       <div class="btn-row">
-        <button class="danger-btn">Eliminar</button>
-        <button class="cancel-btn">Cancelar</button>
+        <button class="danger-btn" (click)="eliminarProducto()">Eliminar</button>
+        <button class="cancel-btn" (click)="toggle(21)">Cancelar</button>
       </div>
     </div>
 

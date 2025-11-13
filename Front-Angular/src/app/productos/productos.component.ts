@@ -21,13 +21,16 @@ export class ProductosComponent implements OnInit {
   nombre: any = '';
   descripcion: any = '';
   stock: any = '';
+  stockE: any = '';
   precioBase: any = '';
   porcentaje: any = '';
   categoria: any[] = [];
   productos: any[] = [];
   linea: string = '';
-  imagen: any[] = [];
   selectedFile: File | null = null;
+  productoSeleccionado: any = null;
+  id: any = '';
+
 
   ngOnInit(): void {
     this.cargarCategorias();
@@ -120,17 +123,113 @@ export class ProductosComponent implements OnInit {
 
   toggle(section: number) {
 
-    // Primero ocultar todas
+
     this.show21 = false;
     this.show22 = false;
     this.show23 = false;
     this.show24 = false;
 
+
     // Luego abrir solo la que se presionó
-    if (section === 21) this.show21 = true;
-    if (section === 22) this.show22 = true;
-    if (section === 23) this.show23 = true;
+    if (section === 21) {
+      this.codigo = '';
+      this.nombre = '';
+      this.descripcion = '';
+      this.precioBase = '';
+      this.stock = '';
+      this.porcentaje = '';
+      this.linea = '';
+
+      this.show21 = true;
+    }
+    if (section === 22) {
+      this.codigo = '';
+      this.nombre = '';
+      this.descripcion = '';
+      this.precioBase = '';
+      this.stock = '';
+      this.porcentaje = '';
+      this.linea = '';
+
+      this.show22 = true;
+    }
+    if (section === 23) {
+      if (this.nombre == '') {
+        alert("Debe seleccionar un producto en la sección de listado");
+        this.show23 = false;
+        this.show21 = true;
+        this.show24 = false;
+        this.show22 = false;
+      }
+
+      this.show23 = true;
+    }
     if (section === 24) this.show24 = true;
+  }
+
+  editarProducto(producto: any) {
+    this.productoSeleccionado = producto;
+    this.codigo = this.productoSeleccionado.codigo;
+    this.nombre = this.productoSeleccionado.nombre;
+    this.descripcion = this.productoSeleccionado.descripcion;
+    this.precioBase = this.productoSeleccionado.precio_unitario;
+    this.stockE = this.productoSeleccionado.stock_total;
+    this.porcentaje = this.productoSeleccionado.iva_porcentaje;
+    this.linea = this.productoSeleccionado.linea;
+    this.id = this.productoSeleccionado.id;
+    this.toggle(23);
+
+  }
+
+  seleccionarProductoE(producto: any) {
+    this.productoSeleccionado = producto;
+    this.codigo = this.productoSeleccionado.codigo;
+    this.nombre = this.productoSeleccionado.nombre;
+    this.descripcion = this.productoSeleccionado.descripcion;
+    this.precioBase = this.productoSeleccionado.precio_unitario;
+    this.stockE = this.productoSeleccionado.stock_total;
+    this.porcentaje = this.productoSeleccionado.iva_porcentaje;
+    this.linea = this.productoSeleccionado.linea;
+    this.id = this.productoSeleccionado.id;
+    this.toggle(24);
+  }
+
+  eliminarProducto() {
+    const id = this.productoSeleccionado.id;
+    this.productosService.eliminarProducto(id).subscribe({
+      next: (resp) => {
+        alert("Producto eliminado");
+        this.toggle(21)
+      },
+      error: (err) => {
+        alert('Error al eliminarProducto');
+      }
+    })
+
+  }
+
+  actualizarProducto() {
+    const body = {
+      codigo: this.codigo,
+      nombre: this.nombre,
+      descripcion: this.descripcion,
+      precio_unitario: parseFloat(this.precioBase), // Asegúrate de que sea un número
+      iva_porcentaje: parseFloat(this.porcentaje),  // Asegúrate de que sea un número
+      stock_total: parseInt(this.stockE, 10),        // Asegúrate de que sea un número entero
+      estado: 'activo',
+      linea: this.linea
+    };
+    this.productosService.updateProducto(this.id, body).subscribe({
+      next: (resp) => {
+        alert("Producto actualizada correctamente");
+        this.cargarProducto();
+        this.show23 = false;
+      },
+      error: (err) => {
+        alert("Error al actualizar producto");
+        console.log("Respuesta del error:", err.error);
+      }
+    })
   }
 
   generarCodigo(catId: any) {
