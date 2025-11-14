@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {VentasService} from "./ventas.service";
 
 @Component({
@@ -7,8 +7,6 @@ import {VentasService} from "./ventas.service";
   styleUrls: ['./ventas.component.scss']
 })
 export class VentasComponent implements OnInit {
-
-
 
 
   // Encabezado
@@ -30,18 +28,42 @@ export class VentasComponent implements OnInit {
   totalIva: number = 0;
   totalGeneral: number = 0;
 
-  constructor(private ventasService: VentasService) {}
+  constructor(private ventasService: VentasService) {
+  }
 
   ngOnInit(): void {
-    // Inicializaciones mínimas
+    this.cargarCliente();
+  }
+
+  cargarCliente() {
+    this.ventasService.getCliente().subscribe({
+        next: data => {
+          this.listaClientes=data;
+        },
+        error: (err) => {
+          console.log(err)
+        }
+      }
+    )
   }
 
   // --- Métodos sin lógica solo para el HTML ---
-  buscarCliente(event: any) {}
-  buscarProducto(event: any) {}
-  cambiarCantidad(index: number) {}
-  eliminarItem(index: number) {}
-  finalizarVenta() {}
-  cancelarVenta() {}
+  buscarCliente(event: any) {
+  }
+
+  buscarProducto(event: any) {
+  }
+
+  cambiarCantidad(index: number) {
+  }
+
+  eliminarItem(index: number) {
+  }
+
+  finalizarVenta() {
+  }
+
+  cancelarVenta() {
+  }
 }
 

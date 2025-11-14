@@ -20,8 +20,8 @@
         <th>Nombre</th>
         <th>Tipo ID</th>
         <th>Número</th>
-        <th>Municipio</th>
         <th>Departamento</th>
+        <th>Dirección</th>
         <th>Teléfono</th>
         <th>Tipo Pago</th>
       </tr>
@@ -30,12 +30,12 @@
       <tbody>
       <tr *ngFor="let cli of clientes">
         <td>{{ cli.nombre }}</td>
-        <td>{{ cli.tipoIdentificacion }}</td>
-        <td>{{ cli.identificacion }}</td>
+        <td>{{ cli.tipo_documento }}</td>
+        <td>{{ cli.documento }}</td>
         <td>{{ cli.municipio }}</td>
-        <td>{{ cli.departamento }}</td>
+        <td>{{ cli.direccion }}</td>
         <td>{{ cli.telefono }}</td>
-        <td>{{ cli.tipoPago }}</td>
+        <td>{{ cli.tipo_pago }}</td>
       </tr>
       </tbody>
     </table>
@@ -46,16 +46,16 @@
   <section *ngIf="showCreate" class="section-box">
     <h2>4.2 Crear Cliente</h2>
 
-    <form class="form-grid">
+    <form class="form-grid" (ngSubmit)="crearCliente()">
 
       <div>
         <label>Nombre</label>
-        <input type="text" [(ngModel)]="clienteForm.nombre" name="nombre">
+        <input type="text" [(ngModel)]="nombre" name="nombre">
       </div>
 
       <div>
         <label>Tipo de ID</label>
-        <select [(ngModel)]="clienteForm.tipoIdentificacion" name="tipoId">
+        <select [(ngModel)]="tipoId" name="tipoId">
           <option>CC</option>
           <option>TI</option>
           <option>NIT</option>
@@ -64,45 +64,55 @@
 
       <div>
         <label>Número ID</label>
-        <input type="text" [(ngModel)]="clienteForm.identificacion" name="id">
+        <input type="text" [(ngModel)]="numeroId" name="id">
       </div>
 
       <div>
         <label>Departamento</label>
-        <select [(ngModel)]="clienteForm.departamento" (change)="cargarDepartamentos()" name="departamento">
+        <select [(ngModel)]="departamento" (change)="cargarDepartamentos()" name="departamento">
           <option *ngFor="let d of departamentos">{{ d }}</option>
         </select>
       </div>
 
       <div>
         <label>Municipio</label>
-        <select [(ngModel)]="clienteForm.municipio" name="municipio">
+        <select [(ngModel)]="municipio" name="municipio">
           <option *ngFor="let m of municipios">{{ m }}</option>
         </select>
       </div>
 
       <div class="grid-full">
         <label>Dirección</label>
-        <input type="text" [(ngModel)]="clienteForm.direccion" name="direccion">
+        <input type="text" [(ngModel)]="direccion" name="direccion">
       </div>
 
       <div>
         <label>Teléfono</label>
-        <input type="text" [(ngModel)]="clienteForm.telefono" name="telefono">
+        <input type="text" [(ngModel)]="telefono" name="telefono">
       </div>
 
       <div>
         <label>Correo</label>
-        <input type="email" [(ngModel)]="clienteForm.correo" name="correo">
+        <input type="email" [(ngModel)]="correo" name="correo">
       </div>
 
       <div>
         <label>Tipo de pago</label>
-        <select [(ngModel)]="clienteForm.tipoPago" name="tipoPago">
+        <select [(ngModel)]="tipoPago" name="tipoPago">
           <option>contado</option>
           <option>crédito</option>
           <option>mixto</option>
         </select>
+      </div>
+
+      <div>
+        <label>Credito</label>
+        <input type="text" [(ngModel)]="credito" name="credito">
+      </div>
+
+      <div>
+        <label>Estado</label>
+        <input type="text" [(ngModel)]="estado" name="estado">
       </div>
 
       <button class="save-btn">Guardar cliente</button>
@@ -121,12 +131,12 @@
 
       <div>
         <label>Nombre</label>
-        <input type="text" [(ngModel)]="clienteForm.nombre" name="editNombre">
+        <input type="text" [(ngModel)]="eNombre" name="editNombre">
       </div>
 
       <div>
         <label>Tipo de ID</label>
-        <select [(ngModel)]="clienteForm.tipoIdentificacion" name="editTipoId">
+        <select [(ngModel)]="eTipoId" name="editTipoId">
           <option>CC</option>
           <option>TI</option>
           <option>NIT</option>
@@ -135,41 +145,41 @@
 
       <div>
         <label>Número ID</label>
-        <input type="text" [(ngModel)]="clienteForm.identificacion" name="editId">
+        <input type="text" [(ngModel)]="eNumeroId" name="editId">
       </div>
 
       <div>
         <label>Departamento</label>
-        <select [(ngModel)]="clienteForm.departamento" name="editDep">
+        <select [(ngModel)]="eDepartamento" name="editDep">
           <option *ngFor="let d of departamentos">{{ d }}</option>
         </select>
       </div>
 
       <div>
         <label>Municipio</label>
-        <select [(ngModel)]="clienteForm.municipio" name="editMun">
+        <select [(ngModel)]="eMunicipio" name="editMun">
           <option *ngFor="let m of municipios">{{ m }}</option>
         </select>
       </div>
 
       <div class="grid-full">
         <label>Dirección</label>
-        <input type="text" [(ngModel)]="clienteForm.direccion" name="editDir">
+        <input type="text" [(ngModel)]="eDireccion" name="editDir">
       </div>
 
       <div>
         <label>Teléfono</label>
-        <input type="text" [(ngModel)]="clienteForm.telefono" name="editTel">
+        <input type="text" [(ngModel)]="eTelefono" name="editTel">
       </div>
 
       <div>
         <label>Correo</label>
-        <input type="email" [(ngModel)]="clienteForm.correo" name="editCorreo">
+        <input type="email" [(ngModel)]="eCorreo" name="editCorreo">
       </div>
 
       <div>
         <label>Tipo de pago</label>
-        <select [(ngModel)]="clienteForm.tipoPago" name="editTipoPago">
+        <select [(ngModel)]="eTipoPago" name="editTipoPago">
           <option>contado</option>
           <option>crédito</option>
           <option>mixto</option>
