@@ -8,10 +8,14 @@ import {ClientesService} from "./clientes.service";
 })
 export class ClientesComponent implements OnInit {
 
+
   constructor(private clientesService: ClientesService) {
   }
 
   departamentos: any[] = [];
+  departamentosBack: any[] = [];
+  listaMunicipios: any[] = [];
+  fechaHora: any = '';
   nombre: any = '';
   tipoId: any = '';
   numeroId: any = '';
@@ -35,11 +39,17 @@ export class ClientesComponent implements OnInit {
   eCredito: any = '';
   eEstado: any = '';
   clientes: any [] = [];
+  idDepartamento: any = '';
+  idMunicipio: any = '';
+  codigo: any = '';
 
   ngOnInit(): void {
     this.cargarDepartamentos();
     this.cargarMunicipios();
     this.cargarClientes()
+    this.cargarDepartamento();
+    this.cargarMunicipio();
+
   }
 
   cargarClientes() {
@@ -53,7 +63,100 @@ export class ClientesComponent implements OnInit {
     })
   }
 
+  cargarDepartamento() {
+    this.clientesService.getDepartamento().subscribe({
+      next: data => {
+        this.departamentosBack = data;
+      },
+      error: (err) => {
+        console.log(err);
+      }
+    })
+  }
+
+  cargarMunicipio() {
+    this.clientesService.getMunicipio().subscribe({
+      next: data => {
+        this.listaMunicipios = data;
+      },
+      error: (err) => {
+        console.log(err);
+      }
+    })
+  }
+
+  crearDepartamento() {
+    this.codigo = Math.random().toString(36).substring(2, 6);
+    this.fechaHora = new Date().toISOString();
+    const body = {
+      nombre: this.departamento,
+      codigo: this.codigo,
+      fecha_creacion: this.fechaHora,
+    }
+    this.clientesService.crearDepartamento(body).subscribe({
+      next: data => {
+        console.log('Crear departamento');
+        this.cargarDepartamento();
+      },
+      error: (err) => {
+        console.log(err);
+      }
+    })
+  }
+
+  crearMunicipio(id: number) {
+    this.codigo = Math.random().toString(36).substring(2, 6);
+    this.fechaHora = new Date().toISOString();
+    const body = {
+      nombre: this.municipio,
+      codigo: this.codigo,
+      fecha_creacion: this.fechaHora,
+      departamento: this.idDepartamento,
+    }
+    this.clientesService.crearMunicipio(body).subscribe({
+      next: data => {
+        console.log('Crear Municipio');
+        this.idDepartamento=id;
+        this.cargarMunicipio();
+      },
+      error: (err) => {
+        console.log(err);
+      }
+    })
+  }
+
   crearCliente() {
+
+
+    for (let i = 0; i < this.departamentosBack.length; i++) {
+      if (this.departamento == this.departamentosBack[i].nombre) {
+        this.idDepartamento = this.departamentosBack[i].id;
+      }
+    }
+
+    let okM = 1;
+
+    for (let i = 0; i < this.listaMunicipios.length; i++) {
+      if (this.municipio == this.listaMunicipios[i].nombre) {
+        this.idMunicipio = this.listaMunicipios[i].id;
+        okM = 0;
+
+      }
+    }
+    if (okM == 1) {
+      this.crearMunicipio(this.idDepartamento);
+
+    }
+
+    this.cargarDepartamento();
+    this.cargarMunicipio();
+
+    for (let i = 0; i < this.listaMunicipios.length; i++) {
+      if (this.municipio == this.listaMunicipios[i].nombre) {
+        this.idMunicipio = this.listaMunicipios[i].id;
+      }
+    }
+
     const body = {
       nombre: this.nombre,
       tipo_documento: this.tipoId,
@@ -61,41 +164,38 @@ export class ClientesComponent implements OnInit {
       correo: this.correo,
       telefono: this.telefono,
       direccion: this.direccion,
-      tipo_pago: this.tipoPago,
+      tipo_pago: this.tipoPago.toUpperCase(),
       credito_maximo: this.credito,
       estado: this.estado,
-      municipio: this.municipio,
-
+      municipio: this.idMunicipio,
     }
+    setTimeout(() => {
+      this.clientesService.crearCliente(body).subscribe({
+        next: data => {
+          alert("Cliente creado");
+        },
+        error: (err) => {
+          console.log(err);
+        }
+      });
 
+    }, 4000);
 
-  }
-
-  actualizarCiente() {
 
   }
 
   editarCliente() {
     const body = {
       nombre: this.eNombre,
-      tipo_documento:
-      this.eTipoId,
-      documento:
-      this.eNumeroId,
-      correo:
-      this.eCorreo,
-      telefono:
-      this.eTelefono,
-      direccion:
-      this.eDireccion,
-      tipo_pago:
-      this.eTipoPago,
-      credito_maximo:
-      this.eCredito,
-      estado:
-      this.eEstado,
-      municipio:
-      this.eMunicipio,
+      tipo_documento: this.eTipoId,
+      documento: this.eNumeroId,
+      correo: this.eCorreo,
+      telefono: this.eTelefono,
+      direccion: this.eDireccion,
+      tipo_pago: this.eTipoPago,
+      credito_maximo: this.eCredito,
+      estado: this.eEstado,
+      municipio: this.eMunicipio,
     }
   }
 

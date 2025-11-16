@@ -6,5 +6,10 @@ import {map, Observable, tap} from 'rxjs';
   providedIn: 'root'
 })
 export class InicioService {
+  constructor(private http: HttpClient) {}
+  private apiUrl :string = 'https://sistema-de-ventas-uumw.onrender.com/api/lineasproducto/';
 
+  getLineas(): Observable<any> {
+    return this.http.get(this.apiUrl);
+  }
 }

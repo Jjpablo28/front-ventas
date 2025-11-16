@@ -24,6 +24,7 @@
         <th>Dirección</th>
         <th>Teléfono</th>
         <th>Tipo Pago</th>
+        <th>Acciones</th>
       </tr>
       </thead>
 
@@ -36,6 +37,8 @@
         <td>{{ cli.direccion }}</td>
         <td>{{ cli.telefono }}</td>
         <td>{{ cli.tipo_pago }}</td>
+        <td> <button class="edit-btn" (click)="seleccionarCliente(cli)">Editar</button>
+          <button class="delete-btn"(click)="seleccionarClienteE(cli)">Eliminar</button></td>
       </tr>
       </tbody>
     </table>
@@ -99,9 +102,9 @@
       <div>
         <label>Tipo de pago</label>
         <select [(ngModel)]="tipoPago" name="tipoPago">
-          <option>contado</option>
-          <option>crédito</option>
-          <option>mixto</option>
+          <option>Contado</option>
+          <option>Credito</option>
+          <option>Mixto</option>
         </select>
       </div>
 
@@ -112,7 +115,10 @@
 
       <div>
         <label>Estado</label>
-        <input type="text" [(ngModel)]="estado" name="estado">
+        <select  [(ngModel)]="estado" name="estado">
+          <option>ACTIVO</option>
+          <option>INACTIVO</option>
+        </select>
       </div>
 
       <button class="save-btn">Guardar cliente</button>

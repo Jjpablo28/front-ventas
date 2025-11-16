@@ -1,4 +1,4 @@
-import { Component, ViewChild, ElementRef, AfterViewInit } from '@angular/core';
+import {Component, ViewChild, ElementRef, AfterViewInit, OnInit} from '@angular/core';
 import ApexCharts from 'apexcharts';
 import {InicioService} from "./inicio.service";
 
@@ -7,11 +7,37 @@ import {InicioService} from "./inicio.service";
   templateUrl: './inicio.component.html',
   styleUrls: ['./inicio.component.scss']
 })
-export class InicioComponent implements AfterViewInit {
-
-  constructor(private inicioService : InicioService) {}
+export class InicioComponent implements AfterViewInit, OnInit {
 
 
+  constructor(private inicioService: InicioService) {
+  }
+
+  nombresCategorias: any[] = [];
+  categorias: any[] = [];
+
+  ngOnInit(): void {
+    this.cargarLineas()
+    console.log(this.categorias)
+  }
+
+  cargarLineas() {
+    this.inicioService.getLineas().subscribe({
+      next: (data) => {
+        this.categorias = data;
+
+        this.nombresCategorias = [];
+
+        for (let i = 0; i < data.length; i++) {
+          this.nombresCategorias.push(this.categorias[i].nombre); // Agregar el nombre
+        }
+        this.initChart();
+      },
+      error: (err) => {
+        console.log(err);
+      }
+    });
+  }
 
   @ViewChild('chart') chartElement!: ElementRef;
 
@@ -31,7 +57,8 @@ export class InicioComponent implements AfterViewInit {
       },
       events: {
         mounted: (chart: any) => {
-          chart.el.addEventListener(
+          // Eliminar el event listener touchstart en modo pasivo
+          chart.el.removeEventListener(
             'touchstart',
             (e: any) => e.stopPropagation(),
             { passive: false }
@@ -39,23 +66,18 @@ export class InicioComponent implements AfterViewInit {
         }
       }
     },
-
     series: [{
       name: "Series 1",
-      data: [80, 50, 30, 40]
+      data: [80, 50, 30, 40, 60, 100]
     }],
-
-    labels: ["Peluche", "Juego de mesa", "Construcción", "Videojuegos"],
-
+    labels: this.nombresCategorias,
     yaxis: {
       show: false,
     },
-
     stroke: {
       width: 2,
       colors: ["#247BA0"]
     },
-
     fill: {
       opacity: 0.2,
       colors: ["#247BA0"]
@@ -92,7 +114,7 @@ export class InicioComponent implements AfterViewInit {
       }
     },
     xaxis: {
-      categories: ["Enero","Febrero","Marzo","Abril","May","June"],
+      categories: ["Enero", "Febrero", "Marzo", "Abril", "May", "June"],
 
     },
     yaxis: [
@@ -149,11 +171,23 @@ export class InicioComponent implements AfterViewInit {
         chart.el.addEventListener(
           'touchstart',
           (e: any) => e.stopPropagation(),
-          { passive: false }
+          //{passive: true}
         );
       }
     }
   };
+  initChart() {
+    // Verificamos si el gráfico ya está inicializado, si no lo está, lo inicializamos
+    if (!this.radar) {
+      this.radar = new ApexCharts(this.radarChartElement.nativeElement, this.radarOptions);
+      this.radar.render();
+    } else {
+      // Si ya existe, actualizamos las opciones del gráfico
+      this.radar.updateOptions({
+        labels: this.nombresCategorias,
+      });
+    }
+  }
 
   ngAfterViewInit() {
     this.chart = new ApexCharts(this.chartElement.nativeElement, this.chartOptions);
@@ -161,4 +195,6 @@ export class InicioComponent implements AfterViewInit {
     this.radar = new ApexCharts(this.radarChartElement.nativeElement, this.radarOptions);
     this.radar.render();
   }
+
+
 }
