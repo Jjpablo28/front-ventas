@@ -85,78 +85,72 @@ export class ClientesComponent implements OnInit {
     })
   }
 
-  crearDepartamento() {
-    this.codigo = Math.random().toString(36).substring(2, 6);
-    this.fechaHora = new Date().toISOString();
-    const body = {
-      nombre: this.departamento,
-      codigo: this.codigo,
-      fecha_creacion: this.fechaHora,
-    }
-    this.clientesService.crearDepartamento(body).subscribe({
-      next: data => {
-        console.log('Crear departamento');
-        this.cargarDepartamento();
-      },
-      error: (err) => {
-        console.log(err);
-      }
-    })
+
+
+  crearMunicipio(id: number): Promise<void> {
+    return new Promise((resolve, reject) => {
+      this.codigo = Math.random().toString(36).substring(2, 6);
+      this.fechaHora = new Date().toISOString();
+      const body = {
+        nombre: this.municipio,
+        codigo: this.codigo,
+        fecha_creacion: this.fechaHora,
+        departamento: this.idDepartamento,
+      };
+
+      this.clientesService.crearMunicipio(body).subscribe({
+        next: data => {
+          console.log('Municipio creado');
+          this.idDepartamento = id;
+          this.cargarMunicipio();
+          resolve();  // Resolvemos la promesa cuando el municipio se haya creado
+        },
+        error: (err) => {
+          console.log(err);
+          reject(err);  // Rechazamos la promesa si ocurre un error
+        }
+      });
+    });
   }
 
-  crearMunicipio(id: number) {
-    this.codigo = Math.random().toString(36).substring(2, 6);
-    this.fechaHora = new Date().toISOString();
-    const body = {
-      nombre: this.municipio,
-      codigo: this.codigo,
-      fecha_creacion: this.fechaHora,
-      departamento: this.idDepartamento,
+
+  async verificarMunicipio() {
+    // Verificar si el municipio ya está en la lista
+    const municipioExistente = this.listaMunicipios.find(municipio => municipio.nombre === this.municipio);
+
+    if (municipioExistente) {
+      // Si el municipio existe, asignamos el id
+      this.idMunicipio = municipioExistente.id;
+    } else {
+      // Si no existe, lo creamos
+      await this.crearMunicipio(this.idDepartamento);  // Esperamos a que se cree el municipio
+      await this.verificarMunicipio();  // Llamamos a verificarMunicipio de nuevo después de la creación
     }
-    this.clientesService.crearMunicipio(body).subscribe({
-      next: data => {
-        console.log('Crear Municipio');
-        this.idDepartamento=id;
-        this.cargarMunicipio();
-      },
-      error: (err) => {
-        console.log(err);
-      }
-    })
   }
 
-  crearCliente() {
-
-
+  async crearCliente() {
+    // Verificar el departamento
     for (let i = 0; i < this.departamentosBack.length; i++) {
       if (this.departamento == this.departamentosBack[i].nombre) {
         this.idDepartamento = this.departamentosBack[i].id;
       }
     }
 
-    let okM = 1;
+    // Verificar o crear el municipio
+    await this.verificarMunicipio();  // Esperamos a que el municipio esté verificado o creado
 
-    for (let i = 0; i < this.listaMunicipios.length; i++) {
-      if (this.municipio == this.listaMunicipios[i].nombre) {
-        this.idMunicipio = this.listaMunicipios[i].id;
-        okM = 0;
-
-      }
-    }
-    if (okM == 1) {
-      this.crearMunicipio(this.idDepartamento);
-
-    }
-
+    // Llamamos a cargar los departamentos y municipios
     this.cargarDepartamento();
     this.cargarMunicipio();
 
+    // Buscar el municipio y asignar el idMunicipio
     for (let i = 0; i < this.listaMunicipios.length; i++) {
       if (this.municipio == this.listaMunicipios[i].nombre) {
         this.idMunicipio = this.listaMunicipios[i].id;
       }
     }
 
+    // Crear el cliente
     const body = {
       nombre: this.nombre,
       tipo_documento: this.tipoId,
@@ -168,21 +162,19 @@ export class ClientesComponent implements OnInit {
       credito_maximo: this.credito,
       estado: this.estado,
       municipio: this.idMunicipio,
-    }
-    setTimeout(() => {
-      this.clientesService.crearCliente(body).subscribe({
-        next: data => {
-          alert("Cliente creado");
-        },
-        error: (err) => {
-          console.log(err);
-        }
-      });
+    };
 
-    }, 4000);
-
-
+    // Crear cliente y esperar la respuesta
+    this.clientesService.crearCliente(body).subscribe({
+      next: data => {
+        alert("Cliente creado");
+      },
+      error: (err) => {
+        console.log(err);
+      }
+    });
   }
+
 
   editarCliente() {
     const body = {

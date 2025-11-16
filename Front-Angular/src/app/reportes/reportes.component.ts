@@ -36,19 +36,14 @@ export class ReportesComponent implements AfterViewInit, OnDestroy, OnInit {
   }
 
   departamentos: any[] = [];
+
   ngOnInit(): void {
     this.cargarDepartamentos();
   }
 
 
-  cargarDepartamentos() {
-    this.reportesService.getDepartamentosNames().subscribe({
-      next: (nombres) => {
-        this.departamentos = nombres;
-      },
-      error: (err) => console.error(err)
-    });
-  }
+
+
 
   @ViewChild('ventasMesChart') ventasMesChart!: ElementRef;
   @ViewChild('productosVendidosChart') productosVendidosChart!: ElementRef;
@@ -139,19 +134,47 @@ export class ReportesComponent implements AfterViewInit, OnDestroy, OnInit {
   // ================================
   //    6.3 Ventas por departamento
   // ================================
-  cargarVentasDepartamento() {
-    const options = {
-      chart: {type: 'bar', height: 330},
-      series: [{name: 'Ventas', data: [300, 240, 180, 150]}],
-      xaxis: {categories: this.departamentos}
-    };
+  cargarDepartamentos() {
+    this.reportesService.getDepartamentosNames().subscribe({
+      next: (nombres) => {
+        this.departamentos = nombres;  // Asignamos los nombres de los departamentos
 
-    const chart = new ApexCharts(
-      this.ventasDepartamentoChart.nativeElement,
-      options
-    );
-    chart.render();
-    this.charts.push(chart);
+        // Una vez que los departamentos están cargados, cargamos las ventas
+        this.cargarVentasDepartamento();
+      },
+      error: (err) => {
+        console.error(err);
+      }
+    });
+  }
+
+
+
+  cargarVentasDepartamento() {
+    // Asegúrate de que this.departamentos esté completamente cargado antes de crear el gráfico
+    if (this.departamentos.length > 0) {
+      const options = {
+        chart: {
+          type: 'bar',
+          height: 330
+        },
+        series: [{
+          name: 'Ventas',
+          data: [33, 31, 119, 111, 8, 13, 141, 97, 126, 51, 115, 3, 50, 66, 101, 121, 68, 148, 3, 120, 91, 60, 10, 79, 43, 32, 44, 37, 136, 110, 35, 143, 121]
+          // Aquí puedes cambiar los datos según sea necesario
+        }],
+        xaxis: {
+          categories: this.departamentos  // Usamos los nombres de los departamentos como categorías
+        }
+      };
+
+      // Crear el gráfico de ApexCharts
+      const chart = new ApexCharts(
+        this.ventasDepartamentoChart.nativeElement,
+        options
+      );
+      chart.render();  // Renderizamos el gráfico
+    }
   }
 
   // ================================
@@ -176,7 +199,7 @@ export class ReportesComponent implements AfterViewInit, OnDestroy, OnInit {
     const options = {
       chart: {type: 'donut', height: 330},
       series: [40, 35, 25],
-      labels: ['Efectivo', 'Tarjeta', 'Transferencia']
+      labels: ['Credito', 'Contado', 'Mixto']
     };
 
     const chart = new ApexCharts(
