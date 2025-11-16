@@ -17,8 +17,8 @@ export class InicioComponent implements AfterViewInit, OnInit {
   categorias: any[] = [];
 
   ngOnInit(): void {
-    this.cargarLineas()
-    console.log(this.categorias)
+    this.cargarLineas();
+
   }
 
   cargarLineas() {
@@ -57,7 +57,7 @@ export class InicioComponent implements AfterViewInit, OnInit {
       },
       events: {
         mounted: (chart: any) => {
-          // Eliminar el event listener touchstart en modo pasivo
+
           chart.el.removeEventListener(
             'touchstart',
             (e: any) => e.stopPropagation(),
@@ -101,7 +101,7 @@ export class InicioComponent implements AfterViewInit, OnInit {
     series: [
       {
         name: "Ventas",
-        data: [15, 20, 15, 30, 10, 18]
+        data: [15, 20, 15, 30, 10, 18,50,30,40,90,38,42]
       },
 
     ],
@@ -114,7 +114,7 @@ export class InicioComponent implements AfterViewInit, OnInit {
       }
     },
     xaxis: {
-      categories: ["Enero", "Febrero", "Marzo", "Abril", "May", "June"],
+      categories: ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre"],
 
     },
     yaxis: [

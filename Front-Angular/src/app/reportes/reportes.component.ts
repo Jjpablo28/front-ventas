@@ -3,17 +3,19 @@ import {
   ElementRef,
   ViewChild,
   AfterViewInit,
-  OnDestroy
+  OnDestroy, OnInit
 } from '@angular/core';
 import ApexCharts from 'apexcharts';
-import { ReportesService } from './reportes.service';
+import {ReportesService} from './reportes.service';
+import {window} from "rxjs";
+
 
 @Component({
   selector: 'app-reportes',
   templateUrl: './reportes.component.html',
   styleUrls: ['./reportes.component.scss']
 })
-export class ReportesComponent implements AfterViewInit, OnDestroy {
+export class ReportesComponent implements AfterViewInit, OnDestroy, OnInit {
 
   // Guardamos todas las instancias para poder destruirlas
   private charts: ApexCharts[] = [];
@@ -24,11 +26,28 @@ export class ReportesComponent implements AfterViewInit, OnDestroy {
     (window as any).Apex = {
       chart: {
         events: {
-          touchMove: () => {},
-          mouseMove: () => {}
+          touchMove: () => {
+          },
+          mouseMove: () => {
+          }
         }
       }
     };
+  }
+
+  departamentos: any[] = [];
+  ngOnInit(): void {
+    this.cargarDepartamentos();
+  }
+
+
+  cargarDepartamentos() {
+    this.reportesService.getDepartamentosNames().subscribe({
+      next: (nombres) => {
+        this.departamentos = nombres;
+      },
+      error: (err) => console.error(err)
+    });
   }
 
   @ViewChild('ventasMesChart') ventasMesChart!: ElementRef;
@@ -53,7 +72,8 @@ export class ReportesComponent implements AfterViewInit, OnDestroy {
     this.charts.forEach(chart => {
       try {
         chart.destroy();
-      } catch {}
+      } catch {
+      }
     });
 
     this.charts = [];
@@ -67,8 +87,8 @@ export class ReportesComponent implements AfterViewInit, OnDestroy {
       chart: {
         type: 'line',
         height: 330,
-        zoom: { enabled: false },
-        toolbar: { show: false },
+        zoom: {enabled: false},
+        toolbar: {show: false},
         events: {
           mounted: (chart: { el: HTMLElement }) => {
             const svg = chart.el.querySelector('svg');
@@ -78,16 +98,16 @@ export class ReportesComponent implements AfterViewInit, OnDestroy {
                 (e: WheelEvent) => {
                   e.preventDefault();
                 },
-                { passive: false }
+                {passive: false}
               );
             }
           }
 
         }
       },
-      series: [{ name: 'Ventas', data: [45, 60, 80, 75, 95, 110] }],
-      xaxis: { categories: ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun'] },
-      stroke: { curve: 'smooth' }
+      series: [{name: 'Ventas', data: [45, 60, 80, 75, 95, 110, 80, 180, 90, 60, 90]}],
+      xaxis: {categories: ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic']},
+      stroke: {curve: 'smooth'}
     };
 
     setTimeout(() => {
@@ -98,15 +118,14 @@ export class ReportesComponent implements AfterViewInit, OnDestroy {
   }
 
 
-
   // ================================
   //    6.2 Productos más vendidos
   // ================================
   cargarProductosVendidos() {
     const options = {
-      chart: { type: 'bar', height: 330 },
-      series: [{ name: 'Cantidad', data: [120, 90, 75, 60] }],
-      xaxis: { categories: ['Oso', 'Carro', 'Puzzle', 'Construcción'] }
+      chart: {type: 'bar', height: 330},
+      series: [{name: 'Cantidad', data: [120, 90, 75, 60]}],
+      xaxis: {categories: ['Oso', 'Carro', 'Puzzle', 'Construcción']}
     };
 
     const chart = new ApexCharts(
@@ -122,9 +141,9 @@ export class ReportesComponent implements AfterViewInit, OnDestroy {
   // ================================
   cargarVentasDepartamento() {
     const options = {
-      chart: { type: 'bar', height: 330 },
-      series: [{ name: 'Ventas', data: [300, 240, 180, 150] }],
-      xaxis: { categories: ['Antioquia', 'Valle', 'Cundinamarca', 'Santander'] }
+      chart: {type: 'bar', height: 330},
+      series: [{name: 'Ventas', data: [300, 240, 180, 150]}],
+      xaxis: {categories: this.departamentos}
     };
 
     const chart = new ApexCharts(
@@ -140,7 +159,7 @@ export class ReportesComponent implements AfterViewInit, OnDestroy {
   // ================================
   cargarGravadas() {
     const options = {
-      chart: { type: 'pie', height: 330 },
+      chart: {type: 'pie', height: 330},
       series: [70, 30],
       labels: ['Gravadas', 'No Gravadas']
     };
@@ -155,7 +174,7 @@ export class ReportesComponent implements AfterViewInit, OnDestroy {
   // ================================
   cargarTipoPago() {
     const options = {
-      chart: { type: 'donut', height: 330 },
+      chart: {type: 'donut', height: 330},
       series: [40, 35, 25],
       labels: ['Efectivo', 'Tarjeta', 'Transferencia']
     };
@@ -167,4 +186,6 @@ export class ReportesComponent implements AfterViewInit, OnDestroy {
     chart.render();
     this.charts.push(chart);
   }
+
+
 }
