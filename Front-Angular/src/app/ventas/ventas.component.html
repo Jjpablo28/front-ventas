@@ -52,15 +52,13 @@
       <input
         type="text"
         placeholder="Buscar producto por código o nombre..."
+        (input)="buscarProducto($event)"
         [(ngModel)]="productoBusqueda"
         [attr.list]="'productos'"
       />
       <datalist id="productos">
         <option *ngFor="let p of listaProductos" [value]="p.nombre"></option>
       </datalist>
-      <button class="btn-agregar-producto" (click)="agregarProductoDesdeBuscador()">
-        Agregar
-      </button>
     </div>
 
     <!-- Tabla dinámica -->
