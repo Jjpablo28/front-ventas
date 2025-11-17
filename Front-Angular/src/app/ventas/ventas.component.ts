@@ -62,13 +62,13 @@ export class VentasComponent implements OnInit {
       next: ({ clientes, productos }) => {
         this.listaClientes = clientes;
 
-        console.log('Productos brutos (desde la API):', productos);
+        console.log('Productos brutos :', productos);
 
         this.listaProductos = productos.filter((p: any) =>
           p.estado.toLowerCase() === 'activo' &&
           p.stock_total > 0
         );
-        console.log('Productos filtrados (para la lista):', this.listaProductos);
+        console.log('Productos filtrados :', this.listaProductos);
       },
       error: (err) => {
         console.error('Error al cargar datos iniciales:', err);
@@ -83,7 +83,7 @@ export class VentasComponent implements OnInit {
   buscarProducto(event: any) {
     const nombreBuscado = event.target.value;
 
-    console.log('Buscando producto (Término):', nombreBuscado);
+    console.log('Buscando producto:', nombreBuscado);
 
     const productoEncontrado = this.listaProductos.find(p => p.nombre.toLowerCase() === nombreBuscado.toLowerCase());
 
@@ -224,7 +224,7 @@ export class VentasComponent implements OnInit {
       },
       error: (err) => {
         console.error('Error al crear la venta:', err);
-        alert('Hubo un error al finalizar la venta (Encabezado). Revisa la consola.');
+        alert('Hubo un error al finalizar la venta . Revisa la consola.');
       }
     });
   }
