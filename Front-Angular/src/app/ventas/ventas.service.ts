@@ -6,9 +6,8 @@ import {map, Observable, tap} from 'rxjs';
   providedIn: 'root'
 })
 export class VentasService {
-
   private apiUrlDetalles = 'https://sistema-de-ventas-uumw.onrender.com/api/ventadetalles/';
-  private apiUrlVenta = 'https://sistema-de-ventas-uumw.onrender.com/api/ventadetalles/';
+  private apiUrlVenta = 'https://sistema-de-ventas-uumw.onrender.com/api/ventas/';
   private apiUrlProducto = 'https://sistema-de-ventas-uumw.onrender.com/api/productos/';
   private apiUrlCliente = 'https://sistema-de-ventas-uumw.onrender.com/api/clientes/';
 
