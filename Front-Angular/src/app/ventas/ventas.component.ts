@@ -195,10 +195,18 @@ export class VentasComponent implements OnInit {
       return;
     }
 
+    let numeroFacturaFinal: string;
+
+    if (this.numeroFactura === 'PENDIENTE') {
+
+      numeroFacturaFinal = `TEMP-${new Date().getTime()}`;
+    } else {
+      numeroFacturaFinal = this.numeroFactura;
+    }
 
 
     const ventaData = {
-      numero_factura: this.numeroFactura === 'PENDIENTE' ? '' : this.numeroFactura,
+      numero_factura: numeroFacturaFinal,
       fecha_hora: new Date().toISOString(),
       cliente: this.clienteSeleccionadoId,
       forma_pago: this.formaPago.toUpperCase(),
@@ -239,7 +247,7 @@ export class VentasComponent implements OnInit {
 
     forkJoin(detallesObservables).subscribe({
       next: (resultados) => {
-        alert('¡Venta completada exitosamente!');
+        alert('Venta completada exitosamente');
         this.cancelarVenta();
       },
       error: (err) => {
