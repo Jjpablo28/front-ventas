@@ -42,6 +42,8 @@ export class ClientesComponent implements OnInit {
   idDepartamento: any = '';
   idMunicipio: any = '';
   codigo: any = '';
+  idE: any = '';
+  idEl: any = '';
 
   ngOnInit(): void {
     this.cargarDepartamentos();
@@ -78,13 +80,14 @@ export class ClientesComponent implements OnInit {
     this.clientesService.getMunicipio().subscribe({
       next: data => {
         this.listaMunicipios = data;
+
+
       },
       error: (err) => {
         console.log(err);
       }
     })
   }
-
 
 
   crearMunicipio(id: number): Promise<void> {
@@ -176,7 +179,24 @@ export class ClientesComponent implements OnInit {
   }
 
 
-  editarCliente() {
+  async editarCliente() {
+    for (let i = 0; i < this.departamentosBack.length; i++) {
+      if (this.departamento == this.departamentosBack[i].nombre) {
+        this.idDepartamento = this.departamentosBack[i].id;
+      }
+    }
+
+    // Verificar o crear el municipio
+    await this.verificarMunicipio();  // Esperamos a que el municipio esté verificado o creado
+
+    // Llamamos a cargar los departamentos y municipios
+    this.cargarDepartamento();
+    this.cargarMunicipio();
+    for (let i = 0; i < this.listaMunicipios.length; i++) {
+      if (this.municipio == this.listaMunicipios[i].nombre) {
+        this.idMunicipio = this.listaMunicipios[i].id;
+      }
+    }
     const body = {
       nombre: this.eNombre,
       tipo_documento: this.eTipoId,
@@ -189,18 +209,51 @@ export class ClientesComponent implements OnInit {
       estado: this.eEstado,
       municipio: this.eMunicipio,
     }
+    this.clientesService.updateCliente(this.idE, body).subscribe({
+      next: data => {
+        alert("Cliente actualizados");
+      },
+      error: (err) => {
+        console.log(err);
+      }
+    });
   }
 
   seleccionarCliente(cliente: any) {
+    this.clienteSeleccionado = cliente;
+    this.eNombre = cliente.nombre;
+    this.eTipoId = cliente.tipo_documento;
+    this.eNumeroId = cliente.documento;
+    this.eCorreo = cliente.correo;
+    this.eTelefono = cliente.telefono;
+    this.eDireccion = cliente.direccion;
+    this.eTipoPago = cliente.tipo_pago;
+    this.eCredito = cliente.credito;
+    this.eEstado = cliente.estado;
+    this.eMunicipio = cliente.municipio;
+    this.idE = cliente.id;
+    console.log(this.eMunicipio)
+    this.open('edit');
+
 
   }
 
   seleccionarClienteE(cliente: any) {
+    this.clienteSeleccionado = cliente;
+    this.idEl = cliente.id;
 
+    this.open('delete');
   }
 
   eliminarCliente() {
-
+    this.clientesService.eliminarCliente(this.idEl).subscribe({
+      next: data => {
+        alert("Cliente eliminado");
+      },
+      error: (err) => {
+        console.log(err);
+      }
+    })
   }
 
   // Control de secciones
@@ -219,21 +272,29 @@ export class ClientesComponent implements OnInit {
   municipios: string[] = [];
 
   // Abre solo una sección
-  open(section: string, cliente?: any) {
+  open(section: string) {
     this.reset();
 
-    if (section === 'list') this.showList = true;
-    if (section === 'create') this.showCreate = true;
+    if (section === 'list') {
+      this.showList = true;
+    }
+    if (section === 'create') {
+      this.showCreate = true;
+    }
 
     if (section === 'edit') {
-      this.showEdit = true;
-      this.clienteSeleccionado = cliente || null;
-      //if (cliente) this.clienteForm = {...cliente};
+      if (this.eNombre == '') {
+        alert('debe seleccionar al menos un cliente');
+      } else if (this.eNombre != '') {
+        this.showEdit = true;
+      }
+
+
     }
 
     if (section === 'delete') {
       this.showDelete = true;
-      this.clienteSeleccionado = cliente || null;
+
     }
   }
 

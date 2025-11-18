@@ -20,7 +20,7 @@
         <th>Nombre</th>
         <th>Tipo ID</th>
         <th>Número</th>
-        <th>Departamento</th>
+        <th>Municipio</th>
         <th>Dirección</th>
         <th>Teléfono</th>
         <th>Tipo Pago</th>
@@ -133,7 +133,7 @@
 
     <p class="info-text">Aquí editas el cliente seleccionado.</p>
 
-    <form class="form-grid">
+    <form class="form-grid" (ngSubmit)="editarCliente()">
 
       <div>
         <label>Nombre</label>
@@ -205,7 +205,7 @@
       <p>¿Estás seguro de eliminar este cliente?</p>
 
       <div class="btn-row">
-        <button class="danger-btn">Eliminar</button>
+        <button class="danger-btn" (click)="eliminarCliente()">Eliminar</button>
         <button class="cancel-btn" (click)="reset()">Cancelar</button>
       </div>
     </div>

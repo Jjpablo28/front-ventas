@@ -114,18 +114,25 @@
   }
 
   .edit-btn,
-  .delete-btn,
-  .create-btn {
-    padding: 0.4rem 0.8rem;
+  .update-btn,
+  .create-btn,
+  .delete-btn {
+    padding: 4px 4px 4px 4px;
     border-radius: 6px;
     font-size: 0.9rem;
     border: none;
     cursor: pointer;
+    width: 120px;
+    text-align: center;
+    display: inline-block;
+
   }
 
   .edit-btn { background: #3498db; color: white; }
+  .update-btn { background: #e74c3c; color: white; }
   .delete-btn { background: #e74c3c; color: white; }
   .create-btn { background: #27ae60; color: white; }
+
 }
 
 .new-product {
