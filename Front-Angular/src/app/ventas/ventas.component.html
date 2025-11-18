@@ -58,9 +58,11 @@
       <datalist id="productos">
         <option *ngFor="let p of listaProductos" [value]="p.nombre"></option>
       </datalist>
-      <button class="btn-agregar-producto" (click)="agregarProductoDesdeBuscador()">
+      <div class="acciones">
+      <button class="btn-finalizar" (click)="agregarProductoDesdeBuscador()">
         Agregar
       </button>
+      </div>
     </div>
 
     <!-- Tabla dinámica -->
